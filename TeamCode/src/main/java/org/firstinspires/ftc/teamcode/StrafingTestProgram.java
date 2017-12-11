@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -14,10 +16,8 @@ public class StrafingTestProgram extends LinearOpMode
     DcMotor rightMotorInside;
     DcMotor leftMotorInside;
     DcMotor blockMotorArm;
-    Servo rightColorArmServo;
-    Servo rightColorServo;
-    Servo leftColorArmSevo;
-    Servo leftColorServo;
+    Servo colorServo;
+    ColorSensor jewelColorSensor;
     Servo rightClawServo;
     Servo leftClawServo;
 
@@ -29,21 +29,23 @@ public class StrafingTestProgram extends LinearOpMode
         rightMotorInside = hardwareMap.dcMotor.get("rightMotorInside");
         leftMotorInside = hardwareMap.dcMotor.get("leftMotorInside");
         blockMotorArm = hardwareMap.dcMotor.get("blockMotorArm");
-
+        colorServo = hardwareMap.servo.get("colorServo");
+        jewelColorSensor = hardwareMap.colorSensor.get("jewelColorSensor");
+        rightClawServo = hardwareMap.servo.get("rightClawServo");
+        leftClawServo = hardwareMap.servo.get("leftClawServo");
         rightMotorInside.setDirection(DcMotor.Direction.REVERSE);
         rightMotorOutside.setDirection(DcMotor.Direction.REVERSE);
+        blockMotorArm.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
 
+        //Main Inits
+        rightClawServo.setPosition(0.6);
+        leftClawServo.setPosition(0.0);
+        colorServo.setPosition(0.0);
+
         while (opModeIsActive())
         {
-            //Main Inits
-            leftColorServo.setPosition(0);
-            leftColorArmSevo.setPosition(0);
-            rightColorArmServo.setPosition(0);
-            rightColorServo.setPosition(0);
-            
-
             //Introduce variables
             double drive;   // Power for forward and back motion
             double strafe;  // Power for left and right motion
@@ -66,11 +68,18 @@ public class StrafingTestProgram extends LinearOpMode
             strafe = (float) scaleInput(strafe);
             rotate = (float) scaleInput(rotate);
 
+            if (gamepad1.left_trigger > 0.25)
+            {
+                 drive /= 3;
+                 strafe /= 3;
+                 rotate /= 3;
+            }
+
             //Set the power for the wheels
-            leftMotorInside.setPower(drive + strafe + rotate);
-            leftMotorOutside.setPower(drive - strafe + rotate);
-            rightMotorInside.setPower(drive - strafe - rotate);
-            rightMotorOutside.setPower(drive + strafe - rotate);
+            leftMotorInside.setPower(drive - strafe + rotate);
+            leftMotorOutside.setPower(drive + strafe + rotate);
+            rightMotorInside.setPower(drive + strafe - rotate);
+            rightMotorOutside.setPower(drive - strafe - rotate);
 
             //Gamepad 2 Portion
             //-------------------------------------------------------------------------
@@ -82,25 +91,35 @@ public class StrafingTestProgram extends LinearOpMode
 
             blockMotorArm.setPower(arm);
 
-            if (gamepad1.a)
+            if (gamepad2.a)
             {
                 //Block gripper opens
+                rightClawServo.setPosition(0.6);
+                leftClawServo.setPosition(0.0);
             }
             if (gamepad2.b)
             {
                 //Block gripper closes
+                rightClawServo.setPosition(0.0);
+                leftClawServo.setPosition(0.7);
+            }
+            if (gamepad2.x)
+            {
+                rightClawServo.setPosition(0.05);
+                leftClawServo.setPosition(0.55);
+            }
+            if (gamepad2.left_trigger > 0.25)
+            {
+                arm /= 3;
             }
 
             //Fail safe actions
-            //-------------------------------------------------------------------------\
+            //-------------------------------------------------------------------------
 
             //Color sensor back up if needed
-            if (gamepad2.y)
+            if (gamepad1.y)
             {
-                leftColorArmSevo.setPosition(0);
-                leftColorServo.setPosition(0);
-                rightColorArmServo.setPosition(0);
-                leftColorServo.setPosition(0);
+                colorServo.setPosition(0.0);
             }
 
             idle();
