@@ -79,8 +79,13 @@ public class PentacoreBluePlate1 extends LinearOpMode
 
         //set variable for speed of robot moving when doing jewels mission
         double _move = 0.15;
-        long _sleeptime = 350;
+        long _sleeptime = 200;
         String _placement = dovuforia();
+
+        // just incase the placement value is incorrectly set, we brute force it to set it to CENTER.
+        if(_placement.equals("UNKNOWN"))
+            _placement="CENTER";
+
         double _rightAngleValue = 0.23; // Defaulting a value incase the vuforia doesn't work
         if (_placement.equals("RIGHT"))
         {
@@ -132,49 +137,48 @@ public class PentacoreBluePlate1 extends LinearOpMode
         {
             StopDriving();
             sleep(1000);
-            colorServo.setPosition(0.85);
-            DriveBackward(-_move);
+            colorServo.setPosition(0.95);
+            Strafe(-_move);
             sleep(_sleeptime);
-            colorServo.setPosition(0.1);
-            DriveBackward(_move);
-            sleep(_sleeptime+300);
+            colorServo.setPosition(0.0);
+            Strafe(_move);
+            sleep(_sleeptime);
         }
         //if senses blue drive forward
         else if (jewelColorSensor.blue() > jewelColorSensor.red() )
         {
             StopDriving();
             sleep(1000);
-            colorServo.setPosition(0.85);
-            DriveBackward(_move);
+            colorServo.setPosition(0.95);
+            Strafe(_move);
             sleep(_sleeptime);
             colorServo.setPosition(0.1);
-            DriveBackward(-_move);
-            sleep(_sleeptime+300);
+            Strafe(-_move);
+            sleep(_sleeptime);
         }
         else
         {
             //raise sensor arm up if no color is sensed
-            colorServo.setPosition(0.1);
+            colorServo.setPosition(0.0);
             sleep(100);
         }
         //turn right and move towards the crypto box
         StopDriving();
-        sleep(1000);
-        RightTurn(0.24);
-        sleep(125);
-        StopDriving();
-        sleep(1000);
-        DriveForward(0.5);
-        sleep(100);
-        //Drop linear slide down to place cube on ground
-        leftServoClaw.setPosition(0.0);
-        rightServoClaw.setPosition(0.6);
-        DriveForward(0.5);
-        sleep(1500);
-        DriveBackward(0.25);
-        sleep(50);
-
-        StopDriving();
+//        sleep(1000);
+//        RightTurn(0.24);
+//        sleep(125);
+//        StopDriving();
+//        sleep(1000);
+//        DriveForward(0.5);
+//        sleep(100);
+//        //Drop linear slide down to place cube on ground
+//        leftServoClaw.setPosition(0.0);
+//        rightServoClaw.setPosition(0.6);
+//        DriveForward(0.5);
+//        sleep(1500);
+//        DriveBackward(0.25);
+//        sleep(50);
+//        StopDriving();
 
 
     }
@@ -273,8 +277,10 @@ public class PentacoreBluePlate1 extends LinearOpMode
 
 
         relicTrackables.activate();
+        int _counter=0;
 
         while (opModeIsActive()) {
+            _counter++;
 
             /**
              * See if any of the instances of {@link relicTemplate} are currently visible.
@@ -293,14 +299,16 @@ public class PentacoreBluePlate1 extends LinearOpMode
                 if (vuMark != null) {
                     _placement = vuMark.toString();
                     System.out.print("Placement value from the VuForia is " + _placement);
-                    break;
                 }
 
             } else {
-                telemetry.addData("VuMark", "not visible");
+//                telemetry.addData("VuMark", "not visible");
             }
 
+            telemetry.addData("VuMark",_placement);
             telemetry.update();
+            if(_counter ==  10000)
+                break;
         }
         return _placement;
     }

@@ -129,8 +129,10 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
         waitForStart();
 
         relicTrackables.activate();
+        int _counter=0;
 
         while (opModeIsActive()) {
+            _counter++;
 
             /**
              * See if any of the instances of {@link relicTemplate} are currently visible.
@@ -174,6 +176,8 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
             }
 
             telemetry.update();
+            if(_counter == 10000)
+                break;
         }
     }
 

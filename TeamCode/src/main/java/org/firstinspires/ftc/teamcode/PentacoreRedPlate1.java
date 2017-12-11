@@ -34,7 +34,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  *This is the left sided balancing stone from the drivers square perspective on the blue side
  *
  */
-@Autonomous(name = "PentacoreBluePlate1", group = "Blue Side")
+@Autonomous(name = "PentacoreRedPlate1", group = "Blue Side")
 //@Disabled
 public class PentacoreRedPlate1 extends LinearOpMode
 {
