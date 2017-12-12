@@ -38,13 +38,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 //@Disabled
 public class PentacoreBluePlate1 extends LinearOpMode
 {
-
     DcMotor rightMotorOutside;
     DcMotor leftMotorOutside;
     DcMotor rightMotorInside;
     DcMotor leftMotorInside;
     DcMotor blockMotorArm;
     Servo colorServo;
+    Servo secondColorServo;
     ColorSensor jewelColorSensor;
     Servo rightClawServo;
     Servo leftClawServo;
@@ -77,9 +77,6 @@ public class PentacoreBluePlate1 extends LinearOpMode
         // wait for the start button to be pressed.
         waitForStart();
 
-        //set variable for speed of robot moving when doing jewels mission
-        double _move = 0.15;
-        long _sleeptime = 200;
         String _placement = dovuforia();
 
         // just incase the placement value is incorrectly set, we brute force it to set it to CENTER.
@@ -101,9 +98,12 @@ public class PentacoreBluePlate1 extends LinearOpMode
         }
 
         //move sensor arm down
+        secondColorServo.setPosition(0.5);
         colorServo.setPosition(0.8);
-        sleep(1000);
-        colorServo.setPosition(1.0);
+        leftClawServo.setPosition(0.0);
+        rightClawServo.setPosition(0.6);
+        sleep(500);
+        colorServo.setPosition(0.95);
         sleep(1000);
         leftClawServo.setPosition(0.7);
         rightClawServo.setPosition(0.05);
@@ -133,34 +133,36 @@ public class PentacoreBluePlate1 extends LinearOpMode
 //        Log.d("$$$$$$ RED",""+jewelColorSensor.red());
 //        Log.d("$$$$$$BLUE",""+jewelColorSensor.blue());
 
-        if (jewelColorSensor.red() > jewelColorSensor.blue())
+        if (jewelColorSensor.blue() > jewelColorSensor.red())
         {
             StopDriving();
             sleep(1000);
             colorServo.setPosition(0.95);
-            Strafe(-_move);
-            sleep(_sleeptime);
+            secondColorServo.setPosition(1.0);
+            sleep(500);
+            colorServo.setPosition(0.5);
+            secondColorServo.setPosition(0.5);
             colorServo.setPosition(0.0);
-            Strafe(_move);
-            sleep(_sleeptime);
+            sleep(3000);
         }
-        //if senses blue drive forward
-        else if (jewelColorSensor.blue() > jewelColorSensor.red() )
+        else if (jewelColorSensor.red() > jewelColorSensor.blue())
         {
             StopDriving();
             sleep(1000);
             colorServo.setPosition(0.95);
-            Strafe(_move);
-            sleep(_sleeptime);
-            colorServo.setPosition(0.1);
-            Strafe(-_move);
-            sleep(_sleeptime);
+            secondColorServo.setPosition(0.0);
+            sleep(500);
+            colorServo.setPosition(0.5);
+            secondColorServo.setPosition(0.5);
+            colorServo.setPosition(0.0);
+            sleep(3000);
         }
         else
         {
             //raise sensor arm up if no color is sensed
             colorServo.setPosition(0.0);
-            sleep(100);
+            secondColorServo.setPosition(0.5);
+            sleep(1000);
         }
         //turn right and move towards the crypto box
         StopDriving();

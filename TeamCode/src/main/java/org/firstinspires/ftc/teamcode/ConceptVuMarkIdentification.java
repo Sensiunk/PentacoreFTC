@@ -176,7 +176,7 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
             }
 
             telemetry.update();
-            if(_counter == 10000)
+            if(_counter == 13000)
                 break;
         }
     }

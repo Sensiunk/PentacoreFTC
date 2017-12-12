@@ -94,7 +94,12 @@ public class PlateMovementTest extends LinearOpMode {
         sleep(100);
         //Move to the right
         Strafe(0.25);
-        sleep(2000);
+        //For Center
+        //sleep(2000);
+        //For Right
+        sleep(2400);
+        //For Left
+        //sleep(1600);
 //        //Drop linear slide down to place cube on ground
 //        DriveForward(0.5);
 //        sleep(150);
