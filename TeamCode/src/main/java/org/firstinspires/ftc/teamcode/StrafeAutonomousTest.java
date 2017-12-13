@@ -68,10 +68,10 @@ public class StrafeAutonomousTest extends LinearOpMode {
     }
 
     public void Strafe(double power) {
-        leftMotorInside.setPower(-power -0.1);
-        leftMotorOutside.setPower(power -0.075);
-        rightMotorInside.setPower(power -0.1);
-        rightMotorOutside.setPower(-power -0.075);
+        leftMotorInside.setPower(-power);
+        leftMotorOutside.setPower(power);
+        rightMotorInside.setPower(power);
+        rightMotorOutside.setPower(-power);
     }
 
     public void RightTurn(double power) {
