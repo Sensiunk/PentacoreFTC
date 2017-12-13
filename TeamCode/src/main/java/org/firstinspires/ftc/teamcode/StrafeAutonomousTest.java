@@ -45,7 +45,7 @@ public class StrafeAutonomousTest extends LinearOpMode {
         // wait for the start button to be pressed.
         waitForStart();
 
-        Strafe(-0.25);
+        NewStrafe(0.01);
         //For Center
         sleep(3000);
         //move sensor arm down
@@ -73,7 +73,13 @@ public class StrafeAutonomousTest extends LinearOpMode {
         rightMotorInside.setPower(power);
         rightMotorOutside.setPower(-power);
     }
-
+    public void NewStrafe(double power)
+    {
+        leftMotorInside.setPower(0.25 + power);
+        leftMotorOutside.setPower(-0.25 + power);
+        rightMotorInside.setPower(-0.25 - power);
+        rightMotorOutside.setPower(0.25 - power);
+    }
     public void RightTurn(double power) {
         leftMotorInside.setPower(power);
         leftMotorOutside.setPower(power);

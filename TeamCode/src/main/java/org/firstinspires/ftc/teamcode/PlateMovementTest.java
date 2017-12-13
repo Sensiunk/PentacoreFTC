@@ -88,15 +88,33 @@ public class PlateMovementTest extends LinearOpMode {
         sleep(100);
         //Drive Forward
         DriveForward(0.25);
-        sleep(1100);
+        sleep(1050);
         StopDriving();
         sleep(100);
         //Move to the right
-        Strafe(-0.25);
+        NewStrafe(0.015);
+        //For Left
+        //sleep(3000);
         //For Center
-        sleep(2200);
+        //sleep(2100);
+        //For Right
+        sleep(900);
+        StopDriving();
+        sleep(1);
+        leftClawServo.setPosition(0.35);
+        rightClawServo.setPosition(0.35);
+        sleep(2000);
+        blockMotorArm.setPower(-0.45);
+        sleep(150);
+        blockMotorArm.setPower(0.0);
+        sleep(1);
+        StopDriving();
         DriveForward(0.25);
         sleep(500);
+        StopDriving();
+        sleep(1);
+        DriveBackward(0.25);
+        sleep(100);
         //For Right
         //sleep(2400);
         //For Left
@@ -129,11 +147,12 @@ public class PlateMovementTest extends LinearOpMode {
         rightMotorOutside.setPower(-power);
     }
 
-    public void Strafe(double power) {
-        leftMotorInside.setPower(-power);
-        leftMotorOutside.setPower(power);
-        rightMotorInside.setPower(power);
-        rightMotorOutside.setPower(-power);
+    public void NewStrafe(double power)
+    {
+        leftMotorInside.setPower(0.25 + power);
+        leftMotorOutside.setPower(-0.25 + power);
+        rightMotorInside.setPower(-0.25 - power);
+        rightMotorOutside.setPower(0.25 - power);
     }
 
     public void RightTurn(double power) {
