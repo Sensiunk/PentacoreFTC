@@ -1,42 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.util.Log;
-import android.view.View;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.vuforia.Vuforia;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-
+/**
+ * Created by manjeshpuram on 12/12/17.
+ */
 /*
  *
  *This program is for Blue Alliance Square 1
  *This is the left sided balancing stone from the drivers square perspective on the blue side
  *
  */
-@Autonomous(name = "PlateMovementTest", group = "Test Programs")
+@Autonomous(name = "StrafeAutonomousTest", group = "Test Programs")
 //@Disabled
-public class PlateMovementTest extends LinearOpMode {
+public class StrafeAutonomousTest extends LinearOpMode {
 
     DcMotor rightMotorOutside;
     DcMotor leftMotorOutside;
@@ -65,52 +45,10 @@ public class PlateMovementTest extends LinearOpMode {
         // wait for the start button to be pressed.
         waitForStart();
 
-        //move sensor arm down
-        leftClawServo.setPosition(0.7);
-        rightClawServo.setPosition(0.05);
-        sleep(1000);
-        blockMotorArm.setPower(0.5);
-        sleep(1000);
-        blockMotorArm.setPower(0.0);
-        sleep(1);
-        StopDriving();
-        sleep(1);
-
-        //turn right and move towards the crypto box
-        //Go forward
-        DriveForward(0.23);
-        sleep(1200);
-        StopDriving();
-        sleep(100);
-        LeftTurn(0.25);
-        sleep(1150);
-        StopDriving();
-        sleep(100);
-        //Drive Forward
-        DriveForward(0.25);
-        sleep(1100);
-        StopDriving();
-        sleep(100);
-        //Move to the right
         Strafe(-0.25);
         //For Center
-        sleep(2200);
-        DriveForward(0.25);
-        sleep(500);
-        //For Right
-        //sleep(2400);
-        //For Left
-        //sleep(1600);
-//        //Drop linear slide down to place cube on ground
-//        DriveForward(0.5);
-//        sleep(150);
-//        StopDriving();
-//        sleep(100);
-//        leftClawServo.setPosition(0.0);
-//        rightClawServo.setPosition(0.6);
-//        DriveBackward(0.25);
-//        sleep(50);
-//        StopDriving();
+        sleep(3000);
+        //move sensor arm down
 
 
     }
@@ -130,10 +68,10 @@ public class PlateMovementTest extends LinearOpMode {
     }
 
     public void Strafe(double power) {
-        leftMotorInside.setPower(-power);
-        leftMotorOutside.setPower(power);
-        rightMotorInside.setPower(power);
-        rightMotorOutside.setPower(-power);
+        leftMotorInside.setPower(-power -0.1);
+        leftMotorOutside.setPower(power -0.075);
+        rightMotorInside.setPower(power -0.1);
+        rightMotorOutside.setPower(-power -0.075);
     }
 
     public void RightTurn(double power) {
